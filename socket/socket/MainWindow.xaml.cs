@@ -28,38 +28,46 @@ namespace socket
         {
             InitializeComponent();
         }
+        //variabile per aggirare un errore
+        int startscimmia = 0;
 
         private void btnCreaSocket_Click(object sender, RoutedEventArgs e)
         {
-            IPEndPoint sourceSocket = new IPEndPoint(IPAddress.Parse("10.73.0.20"),56000);
-
-
-            
+            //scimmia forte insieme (gestione del errore del creare 2 socket)
+            if (startscimmia==0) 
+            {
+                //visione a video del proprio ip nella label 
+                lbloutput.Content= "il tuo ip è :" + Dns.GetHostEntry(Dns.GetHostName()).AddressList[1].ToString();
+                //avvio del Thread
+                Thread ricezione = new Thread(new ParameterizedThreadStart(SocketReceive));
+                ricezione.Start(new IPEndPoint(IPAddress.Parse(Dns.GetHostEntry(Dns.GetHostName()).AddressList[1].ToString()), 56000));
+                startscimmia++;
+            }
+            //attivazione del altro bottone
             btnInvia.IsEnabled = true;
-            Thread ricezione = new Thread(new ParameterizedThreadStart(SocketReceive));
-
-
-            ricezione.Start(sourceSocket);
-
-
         }
         
         private void btnInvia_Click(object sender, RoutedEventArgs e)
-        {//aggiunre controlli sul contenuto delle textbox
-            string ipaddress = txtindirizzoIp.Text;
-            int port =int.Parse( txtport.Text);
-            SocketSend(IPAddress.Parse(ipaddress), port, txtmessage.Text);
-
-
-
-
+        {
+            //aggiunre controlli sul contenuto delle textbox
+            IPAddress provaip;
+            int provaint;
+            //controllo del input delle textbox
+            if (IPAddress.TryParse(txtindirizzoIp.Text, out provaip) && int.TryParse(txtport.Text, out provaint) && provaint > 0 && provaint < 65536) 
+            { 
+                SocketSend(IPAddress.Parse(txtindirizzoIp.Text), int.Parse(txtport.Text) , txtmessage.Text);
+            }
+            else
+            {
+                MessageBox.Show("errore nel inserimento dei campi ip-address o della porta");
+            }
         }
         public async void SocketReceive(object socksource) 
         {
             IPEndPoint ipendp = (IPEndPoint)socksource;
             Socket t = new Socket(ipendp.AddressFamily,SocketType.Dgram,ProtocolType.Udp);
             t.Bind(ipendp);
-
+            //max Byte per messaggio
             Byte[] byteRicevti = new Byte[256];
 
             string message;
@@ -72,7 +80,6 @@ namespace socket
                     if (t.Available > 0)
                     {
                         message = "";
-
                         contaCaratteri = t.Receive(byteRicevti,byteRicevti.Length,0);
                         message += Encoding.ASCII.GetString(byteRicevti, 0, contaCaratteri);
                         this.Dispatcher.BeginInvoke(new Action(() =>
@@ -84,9 +91,6 @@ namespace socket
             });
 
         }
-
-
-
         public void SocketSend(IPAddress dest,int destport,string message)
         {
             Byte[] byteTnviati = Encoding.ASCII.GetBytes(message);

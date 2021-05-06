@@ -7,8 +7,8 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <TextBox Name="txtindirizzoIp" HorizontalAlignment="Left" Height="23" Margin="20,42,0,0" TextWrapping="Wrap" Text="x.y.z.k" VerticalAlignment="Top" Width="120"/>
-        <TextBox x:Name="txtport" HorizontalAlignment="Left" Height="23" Margin="145,42,0,0" TextWrapping="Wrap" Text="numero intero" VerticalAlignment="Top" Width="120"/>
+        <TextBox Name="txtindirizzoIp" HorizontalAlignment="Left" Height="23" Margin="20,42,0,0" TextWrapping="Wrap" Text="x.y.z.k" VerticalAlignment="Top" Width="161"/>
+        <TextBox x:Name="txtport" HorizontalAlignment="Left" Height="23" Margin="186,42,0,0" TextWrapping="Wrap" Text="numero intero" VerticalAlignment="Top" Width="120"/>
         <Button x:Name="btnCreaSocket" Content="Crea" HorizontalAlignment="Left" VerticalAlignment="Top" Width="223" Margin="559,10,0,0" Click="btnCreaSocket_Click" RenderTransformOrigin="0.5,0.5" Height="66">
             <Button.RenderTransform>
                 <TransformGroup>
@@ -19,11 +19,15 @@
                 </TransformGroup>
             </Button.RenderTransform>
         </Button>
-        <TextBox Name="txtmessage" HorizontalAlignment="Left" Height="225" Margin="10,93,0,0" TextWrapping="Wrap" Text="messaggio" VerticalAlignment="Top" Width="368"/>
+        <TextBox Name="txtmessage" HorizontalAlignment="Left" Height="225" Margin="10,93,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="368"/>
         <Button x:Name="btnInvia" Content="invia" IsEnabled="False" HorizontalAlignment="Left" VerticalAlignment="Top" Width="368" Margin="10,323,0,0" Height="86" Click="btnInvia_Click"/>
-        <Label x:Name="lblRicevi" HorizontalAlignment="Left" Height="316" Margin="383,93,0,0" VerticalAlignment="Top" Width="399"/>
-        <Label Content="indirizzo ip" HorizontalAlignment="Left" Margin="20,11,0,0" VerticalAlignment="Top"/>
-        <Label Content="port" HorizontalAlignment="Left" Margin="145,10,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="lblRicevi" HorizontalAlignment="Left" Height="225" Margin="383,93,0,0" VerticalAlignment="Top" Width="399"/>
+        <Label Content="indirizzo ip del ricevente" HorizontalAlignment="Left" Margin="20,11,0,0" VerticalAlignment="Top"/>
+        <Label Content="port" HorizontalAlignment="Left" Margin="186,10,0,0" VerticalAlignment="Top"/>
+        <Label Content="messaggio da  inviare" HorizontalAlignment="Left" Margin="10,67,0,0" VerticalAlignment="Top"/>
+        <Label Content="messaggio ricevuto" HorizontalAlignment="Left" Margin="383,67,0,0" VerticalAlignment="Top"/>
+        <Label Name="lbloutput" Content="ip personale" HorizontalAlignment="Center"  FontSize="33" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="383,323,10,0" VerticalAlignment="Top" Height="86" Width="399"/>
+
 
 
 
