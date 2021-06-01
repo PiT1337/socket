@@ -30,17 +30,30 @@ namespace socket
         }
         //variabile per aggirare un errore
         int startscimmia = 0;
-
+        
+        public static string GetLocalIPAddress()
+        {
+            var host = Dns.GetHostEntry(Dns.GetHostName());
+            foreach (var ip in host.AddressList)
+            {
+                if (ip.AddressFamily == AddressFamily.InterNetwork)
+                {
+                    return ip.ToString();
+                }
+            }
+            throw new Exception("No network adapters with an IPv4 address in the system!");
+        } 
         private void btnCreaSocket_Click(object sender, RoutedEventArgs e)
         {
+ 
             //scimmia forte insieme (gestione del errore del creare 2 socket)
             if (startscimmia==0) 
             {
                 //visione a video del proprio ip nella label 
-                lbloutput.Content= "il tuo ip è :" + Dns.GetHostEntry(Dns.GetHostName()).AddressList[1].ToString();
+                lbloutput.Content= "il tuo ip è :" + GetLocalIPAddress();
                 //avvio del Thread
                 Thread ricezione = new Thread(new ParameterizedThreadStart(SocketReceive));
-                ricezione.Start(new IPEndPoint(IPAddress.Parse(Dns.GetHostEntry(Dns.GetHostName()).AddressList[1].ToString()), 56000));
+                ricezione.Start(new IPEndPoint(IPAddress.Parse(GetLocalIPAddress()), 56000));
                 startscimmia++;
             }
             //attivazione del altro bottone
